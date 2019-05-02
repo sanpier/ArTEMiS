@@ -154,6 +154,10 @@
             </div>
             <h2 *ngIf="tutorParticipationStatus === TRAINED || tutorParticipationStatus === COMPLETED">
                 {{ 'arTeMiSApp.tutorExerciseDashboard.studentsSubmissions' | translate }}
+                <button *ngIf="exercise.type === ExerciseType_TEXT"
+                    class="btn btn-primary btn-sm float-right" (click)="getManualAssessmentQueueSubmission()">
+                    {{'arTeMiSApp.tutorExerciseDashboard.openNextNotAssessedSubmission'| translate}}
+                </button>
             </h2>
             <div class="table-responsive" *ngIf="tutorParticipationStatus === TRAINED || tutorParticipationStatus === COMPLETED">
                 <table class="table table-striped exercise-table" *ngIf="(unassessedSubmission && unassessedSubmission?.id > 0) || submissions.length > 0; else noSubmissions">

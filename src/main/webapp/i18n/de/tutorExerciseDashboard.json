@@ -46,7 +46,9 @@
             "exerciseInformation": "Übungsinformationen",
             "numberOfTotalSubmissions": "Gesamte Beispielabgaben",
             "numberOfAssessedSubmissions": "Bewertete Einreichungen",
-            "numberOfSubmissionsAssessedByYou": "Von Ihnen bewertete Einreichungen"
+            "numberOfSubmissionsAssessedByYou": "Von Ihnen bewertete Einreichungen",
+            "openNextUnassessedSubmission": "Öffne die nächste unbewertete Abgabe",
+            "NoUnassessedSubmissions": "Es gibt keine unbewerteten Abgaben"
         }
     }
 }

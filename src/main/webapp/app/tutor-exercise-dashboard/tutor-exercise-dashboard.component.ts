@@ -233,6 +233,34 @@ export class TutorExerciseDashboardComponent implements OnInit {
             );
         }
     }
+    private getManualAssessmentQueueSubmission() {
+        if (this.exercise.type === ExerciseType.TEXT) {
+            this.textSubmissionService
+                .getTextSubmissionFromManualAssessmentQueue(this.exerciseId)
+                .map((response: HttpResponse<TextSubmission>) => {
+                    let submission: Submission = response.body;
+                    if (submission.result) {
+                        // reconnect some associations
+                        submission.result.submission = submission;
+                        submission.result.participation = submission.participation;
+                        submission.participation.results = [submission.result];
+                    }
+                    return submission;
+                })
+                .subscribe(
+                    (submission: TextSubmission) => {
+                        this.openAssessmentEditor(submission.id);
+                    },
+                    (error: HttpErrorResponse) => {
+                        if (error.status === 404) {
+                            this.jhiAlertService.info('arTeMiSApp.tutorExerciseDashboard.NoUnassessedSubmissions');
+                        } else {
+                            this.onError(error.message);
+                        }
+                    },
+                );
+        }
+    }
 
     readInstruction() {
         this.tutorParticipationService.create(this.tutorParticipation, this.exerciseId).subscribe((res: HttpResponse<TutorParticipation>) => {

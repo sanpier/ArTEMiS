@@ -215,4 +215,23 @@ public class TextSubmissionResource {
 
         return ResponseUtil.wrapOrNotFound(textSubmissionWithoutAssessment);
     }
+    /**
+     * GET /text-submission-from-manual-assessment-queue : get one textSubmission without assessment.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of textSubmissions in body
+     */
+    @GetMapping(value = "exercises/{exerciseId}/text-submission-from-manual-assessment-queue")
+    @PreAuthorize("hasAnyRole('TA', 'INSTRUCTOR', 'ADMIN')")
+    public ResponseEntity<TextSubmission> getTextSubmissionFromManualAssessmentQueue(@PathVariable Long exerciseId) {
+        log.debug("REST request to get a text submission from manual assessment queue");
+        Exercise exercise = exerciseService.findOne(exerciseId);
+        if (!authCheckService.isAtLeastTeachingAssistantForExercise(exercise)) {
+            return forbidden();
+        }
+        if (!(exercise instanceof TextExercise)) {
+            return badRequest();
+        }
+        Optional<TextSubmission> textSubmissionFromManualAssessmentQueue = this.textSubmissionService.getNotAssessedTextExercise(exerciseId);
+        return ResponseUtil.wrapOrNotFound(textSubmissionFromManualAssessmentQueue);
+    }
 }

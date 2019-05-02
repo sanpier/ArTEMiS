@@ -47,6 +47,11 @@ export class TextSubmissionService {
             })
             .map((res: HttpResponse<TextSubmission[]>) => this.convertArrayResponse(res));
     }
+    getTextSubmissionFromManualAssessmentQueue(exerciseId: number): Observable<HttpResponse<TextSubmission>> {
+        return this.http
+            .get<TextSubmission>(`api/exercises/${exerciseId}/text-submission-from-manual-assessment-queue`, { observe: 'response' })
+            .map((res: HttpResponse<TextSubmission>) => this.convertResponse(res));
+    }
 
     getTextSubmissionForExerciseWithoutAssessment(exerciseId: number): Observable<HttpResponse<TextSubmission>> {
         return this.http
