@@ -202,20 +202,20 @@ public class TextSubmissionService {
     public long countSubmittedSubmissionsForExerciseId(Long id) {
         return textSubmissionRepository.countBySubmittedAndParticipation_Exercise_Id(true, id);
     }
+
     /**
-     * @param exerciseId  - the id of the exercise we are interested into
+     * @param exerciseId - the id of the exercise we are interested into
      * @return the first not assessed submission from the corresponding exerciseId if there is one
      */
-    public Optional<TextSubmission> getNotAssessedTextExercise(Long exerciseId)
-    {
-        //List<TextSubmission> textSubmissionList = this.getTextSubmissionsByExerciseId(exerciseId,true);
+    public Optional<TextSubmission> getNotAssessedTextExercise(Long exerciseId) {
+        // List<TextSubmission> textSubmissionList = this.getTextSubmissionsByExerciseId(exerciseId,true);
         List<Participation> participations = participationRepository.findAllByExerciseIdWithEagerSubmissionsAndEagerResultsAndEagerAssessor(exerciseId);
         for (Participation participation : participations) {
             Optional<TextSubmission> optionalSubmission = participation.findLatestTextSubmission();
-            if (!optionalSubmission.isPresent()||optionalSubmission.get().getResult() != null) {
+            if (!optionalSubmission.isPresent() || optionalSubmission.get().getResult() != null) {
                 continue;
             }
-            return  optionalSubmission;
+            return optionalSubmission;
         }
         return Optional.empty();
     }

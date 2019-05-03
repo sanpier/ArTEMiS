@@ -238,7 +238,7 @@ export class TutorExerciseDashboardComponent implements OnInit {
             this.textSubmissionService
                 .getTextSubmissionFromManualAssessmentQueue(this.exerciseId)
                 .map((response: HttpResponse<TextSubmission>) => {
-                    let submission: Submission = response.body;
+                    const submission: Submission = response.body;
                     if (submission.result) {
                         // reconnect some associations
                         submission.result.submission = submission;
